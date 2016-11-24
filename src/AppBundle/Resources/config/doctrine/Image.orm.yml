@@ -2,16 +2,15 @@ AppBundle\Entity\Image:
     type: entity
     table: images
     repositoryClass: AppBundle\Repository\ImageRepository
+
     id:
         id:
             type: integer
             generator: { strategy: auto }
     fields:
         shortId:
-            type: shortid
+            type: string
             nullable: false
-            generator: { strategy: custom }
-            customIdGenerator: { class: PUGX\Shortid\Doctrine\Generator\ShortidGenerator }
         filesystem:
             type: string
             length: 255

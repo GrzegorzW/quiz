@@ -2,9 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use ModernFactory\ResourcesBundle\Resource\Model\ResourceInterface;
-
-class Answer implements ResourceInterface
+class Answer implements QuizResourceInterface
 {
     /** @var integer */
     protected $id;

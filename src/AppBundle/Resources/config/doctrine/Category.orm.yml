@@ -7,13 +7,10 @@ AppBundle\Entity\Category:
         id:
             type: integer
             generator: { strategy: auto }
-
     fields:
         shortId:
-            type: shortid
+            type: string
             nullable: false
-            generator: { strategy: custom }
-            customIdGenerator: { class: PUGX\Shortid\Doctrine\Generator\ShortidGenerator }
         createdAt:
             type: datetime
             gedmo:

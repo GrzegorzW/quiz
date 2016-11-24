@@ -3,9 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use ModernFactory\ResourcesBundle\Resource\Model\ResourceInterface;
 
-class Category implements ResourceInterface
+class Category implements QuizResourceInterface
 {
     const STATUS_ENABLED = 'enabled';
     const STATUS_DISABLED = 'disabled';

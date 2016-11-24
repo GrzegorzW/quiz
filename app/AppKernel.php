@@ -29,7 +29,6 @@ class AppKernel extends Kernel
             new Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle(),
             new Gfreeau\Bundle\GetJWTBundle\GfreeauGetJWTBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
-            new PUGX\ShortidDoctrineBundle\PUGXShortidDoctrineBundle(),
 
         ];
 

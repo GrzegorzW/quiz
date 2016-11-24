@@ -3,13 +3,12 @@
 namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
-use ModernFactory\ResourcesBundle\Resource\Model\ResourceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @UniqueEntity("emailCanonical")
  */
-class User extends BaseUser implements ResourceInterface
+class User extends BaseUser implements QuizResourceInterface
 {
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';

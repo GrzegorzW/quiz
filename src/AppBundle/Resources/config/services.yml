@@ -29,3 +29,8 @@ services:
         factory: ["@doctrine", 'getRepository']
         arguments:
           - AppBundle\Entity\Question
+
+    app.pre_persist_listener:
+        class: AppBundle\EventListener\PrePersistListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist, method: prePersist }

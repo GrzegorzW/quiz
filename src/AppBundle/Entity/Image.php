@@ -2,10 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use ModernFactory\ResourcesBundle\Resource\Model\ResourceInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class Image implements ResourceInterface
+class Image implements QuizResourceInterface
 {
     /** @var string */
     protected $id;

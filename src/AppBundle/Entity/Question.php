@@ -3,9 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use ModernFactory\ResourcesBundle\Resource\Model\ResourceInterface;
 
-class Question implements ResourceInterface
+class Question implements QuizResourceInterface
 {
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
