@@ -1,0 +1,31 @@
+services:
+    app.pagination_manager:
+        class: AppBundle\Service\PaginationManager
+    app.mail_manager:
+        class: AppBundle\Service\MailManager
+        arguments:
+            - '@swiftmailer.mailer'
+            - '@twig'
+            - '%mailer_from%'
+            - '%mailer_name%'
+
+    app.answer_repository:
+        class: AppBundle\Repository\AnswerRepository
+        factory: ["@doctrine", 'getRepository']
+        arguments:
+          - AppBundle\Entity\Answer
+    app.category_repository:
+        class: AppBundle\Repository\CategoryRepository
+        factory: ["@doctrine", 'getRepository']
+        arguments:
+          - AppBundle\Entity\Category
+    app.image_repository:
+        class: AppBundle\Repository\ImageRepository
+        factory: ["@doctrine", 'getRepository']
+        arguments:
+          - AppBundle\Entity\Image
+    app.question_repository:
+        class: AppBundle\Repository\QuestionRepository
+        factory: ["@doctrine", 'getRepository']
+        arguments:
+          - AppBundle\Entity\Question

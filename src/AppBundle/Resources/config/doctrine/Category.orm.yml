@@ -1,0 +1,36 @@
+AppBundle\Entity\Category:
+    type: entity
+    table: categories
+    repositoryClass: AppBundle\Repository\CategoryRepository
+
+    id:
+        id:
+            type: integer
+            generator: { strategy: auto }
+
+    fields:
+        shortId:
+            type: shortid
+            nullable: false
+            generator: { strategy: custom }
+            customIdGenerator: { class: PUGX\Shortid\Doctrine\Generator\ShortidGenerator }
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        status:
+            type: string
+            nullable: false
+        name:
+            type: string
+            nullable: false
+    oneToMany:
+        questions:
+            targetEntity: AppBundle\Entity\Question
+            mappedBy: category

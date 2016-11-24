@@ -1,0 +1,14 @@
+AppBundle\Entity\Category:
+    exclusion_policy: ALL
+    properties:
+        shortId:
+            groups: [category_simple, question_simple]
+            serializedName: id
+        createdAt:
+            groups: [category_admin]
+        updatedAt:
+            groups: [category_admin]
+        status:
+            groups: [category_admin]
+        name:
+            groups: [category_simple, question_simple]

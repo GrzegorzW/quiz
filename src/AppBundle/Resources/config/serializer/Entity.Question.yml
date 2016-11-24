@@ -1,0 +1,22 @@
+AppBundle\Entity\Question:
+    exclusion_policy: ALL
+    properties:
+        shortId:
+            groups: [question_simple, answer_detailed, image_detailed]
+            serializedName: id
+        createdAt:
+            groups: [question_admin]
+        updatedAt:
+            groups: [question_admin]
+        status:
+            groups: [question_admin]
+        content:
+            groups: [question_simple]
+        category:
+            groups: [question_simple]
+        image:
+            groups: [question_simple]
+        answers:
+            groups: [question_detailed]
+        correctAnswer:
+            groups: [question_detailed]

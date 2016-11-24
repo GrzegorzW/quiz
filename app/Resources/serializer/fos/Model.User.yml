@@ -1,0 +1,9 @@
+FOS\UserBundle\Model\User:
+    exclusion_policy: ALL
+    properties:
+        email:
+            groups: [user_simple]
+        roles:
+            groups: [user_detailed]
+        enabled:
+            groups: [user_admin]

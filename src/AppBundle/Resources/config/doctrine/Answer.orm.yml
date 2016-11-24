@@ -1,0 +1,37 @@
+AppBundle\Entity\Answer:
+    type: entity
+    table: answers
+    repositoryClass: AppBundle\Repository\AnswerRepository
+
+    id:
+        id:
+            type: integer
+            generator: { strategy: auto }
+
+    fields:
+        shortId:
+            type: shortid
+            nullable: false
+            generator: { strategy: custom }
+            customIdGenerator: { class: PUGX\Shortid\Doctrine\Generator\ShortidGenerator }
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        content:
+            type: string
+            nullable: false
+    manyToOne:
+        question:
+            targetEntity: AppBundle\Entity\Question
+            inversedBy: answers
+            joinColumn:
+                name: question_id
+                referencedColumnName: id
+                nullable: false

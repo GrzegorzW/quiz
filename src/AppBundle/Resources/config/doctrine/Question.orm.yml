@@ -1,0 +1,58 @@
+AppBundle\Entity\Question:
+    type: entity
+    table: questions
+    repositoryClass: AppBundle\Repository\QuestionRepository
+
+    id:
+        id:
+            type: integer
+            generator: { strategy: auto }
+
+    fields:
+        shortId:
+            type: shortid
+            nullable: false
+            generator: { strategy: custom }
+            customIdGenerator: { class: PUGX\Shortid\Doctrine\Generator\ShortidGenerator }
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        status:
+            type: string
+            nullable: false
+        content:
+            type: string
+            nullable: false
+    manyToOne:
+        category:
+            targetEntity: AppBundle\Entity\Category
+            inversedBy: questions
+            joinColumn:
+                name: category_id
+                referencedColumnName: id
+                nullable: false
+    oneToOne:
+        image:
+            targetEntity: AppBundle\Entity\Image
+            inversedBy: question
+            joinColumn:
+                name: image_id
+                referencedColumnName: id
+                nullable: false
+        correctAnswer:
+            targetEntity: AppBundle\Entity\Answer
+            joinColumn:
+                name: correct_answer_id
+                referencedColumnName: id
+                nullable: false
+    oneToMany:
+        answers:
+            targetEntity: AppBundle\Entity\Answer
+            mappedBy: question

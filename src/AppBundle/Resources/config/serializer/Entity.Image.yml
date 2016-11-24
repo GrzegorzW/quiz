@@ -1,0 +1,22 @@
+AppBundle\Entity\Image:
+    exclusion_policy: ALL
+    properties:
+        shortId:
+            groups: [image_simple, question_simple]
+            serializedName: id
+        originalName:
+            groups: [image_admin]
+        imageName:
+            groups: [image_simple]
+        mimeType:
+            groups: [image_simple]
+        size:
+            groups: [image_detailed]
+        question:
+            groups: [image_detailed]
+        createdAt:
+            groups: [image_admin]
+        updatedAt:
+            groups: [image_admin]
+        url:
+            groups: [image_simple, question_simple]
