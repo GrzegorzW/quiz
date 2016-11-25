@@ -1005,12 +1005,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "11bee8aaa2317e73c9792ba4dcbf200334f8960f"
+                "reference": "4008820bf6a3474e088cd3c41a90e4f143e54b6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/11bee8aaa2317e73c9792ba4dcbf200334f8960f",
-                "reference": "11bee8aaa2317e73c9792ba4dcbf200334f8960f",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/4008820bf6a3474e088cd3c41a90e4f143e54b6f",
+                "reference": "4008820bf6a3474e088cd3c41a90e4f143e54b6f",
                 "shasum": ""
             },
             "require": {
@@ -1094,7 +1094,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2016-11-23 12:14:19"
+            "time": "2016-11-25 16:40:44"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -4386,16 +4386,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "0.2",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "b39c7a5b194f9ed7bd0dd345c751007a41862443"
+                "reference": "e224fb2ea2fba6d3ad6fdaef91cd09a172155ccb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/b39c7a5b194f9ed7bd0dd345c751007a41862443",
-                "reference": "b39c7a5b194f9ed7bd0dd345c751007a41862443",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/e224fb2ea2fba6d3ad6fdaef91cd09a172155ccb",
+                "reference": "e224fb2ea2fba6d3ad6fdaef91cd09a172155ccb",
                 "shasum": ""
             },
             "require": {
@@ -4429,7 +4429,7 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
-            "time": "2016-06-10 07:14:17"
+            "time": "2016-11-25 06:54:22"
         },
         {
             "name": "phpspec/prophecy",
