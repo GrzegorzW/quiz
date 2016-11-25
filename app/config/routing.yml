@@ -1,7 +1,7 @@
 api:
     resource: "@AppBundle/Controller/"
     type:     annotation
-    prefix:   /api
+    prefix:   /api/v1
 
 api_get_token:
     path:     /api/getToken

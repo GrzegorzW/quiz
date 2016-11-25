@@ -11,6 +11,7 @@ AppBundle\Entity\Answer:
         shortId:
             type: string
             nullable: false
+            unique: true
         createdAt:
             type: datetime
             gedmo:

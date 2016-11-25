@@ -11,6 +11,7 @@ AppBundle\Entity\Category:
         shortId:
             type: string
             nullable: false
+            unique: true
         createdAt:
             type: datetime
             gedmo:
@@ -31,3 +32,4 @@ AppBundle\Entity\Category:
         questions:
             targetEntity: AppBundle\Entity\Question
             mappedBy: category
+            orphanRemoval: true
