@@ -40,6 +40,7 @@ AppBundle\Entity\Question:
         image:
             targetEntity: AppBundle\Entity\Image
             inversedBy: question
+            cascade: [persist, remove]
             joinColumn:
                 name: image_id
                 referencedColumnName: id
@@ -49,8 +50,9 @@ AppBundle\Entity\Question:
             joinColumn:
                 name: correct_answer_id
                 referencedColumnName: id
-                nullable: false
+            cascade: [persist, remove]
     oneToMany:
         answers:
             targetEntity: AppBundle\Entity\Answer
             mappedBy: question
+            cascade: [persist, remove]

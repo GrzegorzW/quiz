@@ -16,7 +16,7 @@ class CategoryController extends ApiController
      * @ApiDoc(
      *   section = "category",
      *   description = "Create category",
-     *   views = { "admin" },
+     *   views = {"admin"},
      *   authentication=true,
      *   authenticationRoles={"ROLE_ADMIN"},
      *   resource = true,
@@ -64,7 +64,7 @@ class CategoryController extends ApiController
      * @ApiDoc(
      *   section = "category",
      *   description = "Update category",
-     *   views = { "admin" },
+     *   views = {"admin"},
      *   authentication=true,
      *   authenticationRoles={"ROLE_ADMIN"},
      *   resource = true,
@@ -116,7 +116,7 @@ class CategoryController extends ApiController
      * @ApiDoc(
      *   section = "category",
      *   description = "Delete category",
-     *   views = { "admin" },
+     *   views = {"admin"},
      *   authentication=true,
      *   authenticationRoles={"ROLE_ADMIN"},
      *   resource = true,

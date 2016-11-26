@@ -32,4 +32,3 @@ AppBundle\Entity\Answer:
             joinColumn:
                 name: question_id
                 referencedColumnName: id
-                nullable: false

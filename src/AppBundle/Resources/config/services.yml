@@ -9,6 +9,11 @@ services:
             - '%mailer_from%'
             - '%mailer_name%'
 
+    file.filesystem_manager:
+        class: AppBundle\Service\FilesystemManager
+        arguments:
+          - "@oneup_flysystem.mount_manager"
+
     app.answer_repository:
         class: AppBundle\Repository\AnswerRepository
         factory: ["@doctrine", 'getRepository']
@@ -34,3 +39,9 @@ services:
         class: AppBundle\EventListener\PrePersistListener
         tags:
             - { name: doctrine.event_listener, event: prePersist, method: prePersist }
+
+    app.image_subscriber:
+        class: AppBundle\EventSubscriber\ImageSubscriber
+        arguments: ['@twig.extension.httpfoundation', '@file.filesystem_manager']
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }

@@ -13,7 +13,7 @@ class CategoryController extends ApiController
      * @ApiDoc(
      *   section = "category",
      *   description = "List categories",
-     *   views = { "user" },
+     *   views = {"user", "admin"},
      *   authentication=true,
      *   authenticationRoles={"ROLE_USER"},
      *   resource = true,

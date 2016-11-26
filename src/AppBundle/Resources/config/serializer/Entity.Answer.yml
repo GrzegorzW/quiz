@@ -2,7 +2,7 @@ AppBundle\Entity\Answer:
     exclusion_policy: ALL
     properties:
         shortId:
-            groups: [answer_simple]
+            groups: [answer_simple, question_detailed]
             serializedName: id
         createdAt:
             groups: [answer_admin]
@@ -11,7 +11,7 @@ AppBundle\Entity\Answer:
         status:
             groups: [answer_admin]
         content:
-            groups: [answer_simple]
+            groups: [answer_simple, question_detailed]
         question:
             groups: [answer_detailed]
 

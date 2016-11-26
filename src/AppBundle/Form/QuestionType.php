@@ -3,24 +3,21 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Question;
+use AppBundle\Validator\Constraints\ArrayCollectionType;
+use AppBundle\Validator\Constraints\NotEmptyArrayCollection;
+use AppBundle\Validator\Constraints\UniqueQuestionAnswers;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class QuizType extends AbstractType
+class QuestionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
-
         $builder
             ->add('content', TextType::class, [
                 'description' => 'Text content',
@@ -28,7 +25,7 @@ class QuizType extends AbstractType
                     new NotBlank()
                 ]
             ])
-            ->add('correctAnswer', TextType::class, [
+            ->add('correctAnswer', AnswerType::class, [
                 'description' => 'Correct answer',
                 'constraints' => [
                     new NotBlank()
@@ -36,34 +33,21 @@ class QuizType extends AbstractType
             ])
             ->add('answers', CollectionType::class, [
                 'description' => 'Incorrect answers',
+                'entry_type' => AnswerType::class,
+                'by_reference' => false,
+                'allow_add' => true,
+                'constraints' => [
+                    new NotEmptyArrayCollection(),
+                    new UniqueQuestionAnswers()
+                ]
+            ])
+            ->add('image', ImageType::class, [
+                'description' => 'Image',
                 'constraints' => [
                     new NotBlank()
                 ]
             ])
-            ->add('imageFile', FileType::class, [
-                'description' => 'Image file',
-                'constraints' => [
-                    new NotBlank(),
-                    new File([
-                        'maxSize' => '8M',
-                        'mimeTypes' => [
-                            'image/jpg',
-                            'image/jpeg',
-                            'image/png',
-                            'image/gif'
-                        ]
-                    ])
-                ]
-            ]);
-    }
-
-    public function onPreSetData(FormEvent $event)
-    {
-        $question = $event->getData();
-
-        if ($question instanceof Question && $question->getId() !== null) {
-            $form = $event->getForm();
-            $form->add('status', ChoiceType::class, [
+            ->add('status', ChoiceType::class, [
                 'description' => 'Status',
                 'required' => true,
                 'expanded' => true,
@@ -76,14 +60,13 @@ class QuizType extends AbstractType
                     new NotBlank()
                 ]
             ]);
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => Question::class,
+            'data_class' => Question::class
         ]);
     }
 

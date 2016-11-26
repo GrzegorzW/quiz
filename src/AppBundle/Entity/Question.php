@@ -157,6 +157,7 @@ class Question implements QuizResourceInterface
     public function setImage(Image $image)
     {
         $this->image = $image;
+        $this->image->setQuestion($this);
     }
 
     /**
@@ -189,5 +190,21 @@ class Question implements QuizResourceInterface
     public function setCorrectAnswer(Answer $correctAnswer)
     {
         $this->correctAnswer = $correctAnswer;
+        $correctAnswer->setQuestion($this);
+    }
+
+    public function addAnswer(Answer $answer)
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers->add($answer);
+            $answer->setQuestion($this);
+        }
+    }
+
+    public function removeAnswer(Answer $answer)
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+        }
     }
 }
