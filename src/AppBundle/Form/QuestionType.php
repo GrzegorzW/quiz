@@ -31,7 +31,7 @@ class QuestionType extends AbstractType
                     new NotBlank()
                 ]
             ])
-            ->add('answers', CollectionType::class, [
+            ->add('incorrectAnswers', CollectionType::class, [
                 'description' => 'Incorrect answers',
                 'entry_type' => AnswerType::class,
                 'by_reference' => false,

@@ -28,7 +28,7 @@ AppBundle\Entity\Answer:
     manyToOne:
         question:
             targetEntity: AppBundle\Entity\Question
-            inversedBy: answers
+            inversedBy: incorrectAnswers
             joinColumn:
                 name: question_id
                 referencedColumnName: id

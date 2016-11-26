@@ -52,7 +52,7 @@ AppBundle\Entity\Question:
                 referencedColumnName: id
             cascade: [persist, remove]
     oneToMany:
-        answers:
+        incorrectAnswers:
             targetEntity: AppBundle\Entity\Answer
             mappedBy: question
             cascade: [persist, remove]

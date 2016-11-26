@@ -16,7 +16,7 @@ AppBundle\Entity\Question:
             groups: [question_simple]
         image:
             groups: [question_simple]
-        answers:
+        incorrectAnswers:
             groups: [question_detailed]
         correctAnswer:
             groups: [question_detailed]

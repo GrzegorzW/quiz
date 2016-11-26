@@ -29,14 +29,14 @@ class Question implements QuizResourceInterface
     /** @var Image */
     protected $image;
     /** @var ArrayCollection */
-    protected $answers;
+    protected $incorrectAnswers;
     /** @var Answer */
     protected $correctAnswer;
 
     public function __construct(Category $category)
     {
         $this->category = $category;
-        $this->answers = new ArrayCollection();
+        $this->incorrectAnswers = new ArrayCollection();
     }
 
     /**
@@ -163,17 +163,17 @@ class Question implements QuizResourceInterface
     /**
      * @return ArrayCollection
      */
-    public function getAnswers()
+    public function getIncorrectAnswers()
     {
-        return $this->answers;
+        return $this->incorrectAnswers;
     }
 
     /**
-     * @param ArrayCollection $answers
+     * @param ArrayCollection $incorrectAnswers
      */
-    public function setAnswers(ArrayCollection $answers)
+    public function setIncorrectAnswers(ArrayCollection $incorrectAnswers)
     {
-        $this->answers = $answers;
+        $this->incorrectAnswers = $incorrectAnswers;
     }
 
     /**
@@ -193,18 +193,18 @@ class Question implements QuizResourceInterface
         $correctAnswer->setQuestion($this);
     }
 
-    public function addAnswer(Answer $answer)
+    public function addIncorrectAnswer(Answer $answer)
     {
-        if (!$this->answers->contains($answer)) {
-            $this->answers->add($answer);
+        if (!$this->incorrectAnswers->contains($answer)) {
+            $this->incorrectAnswers->add($answer);
             $answer->setQuestion($this);
         }
     }
 
-    public function removeAnswer(Answer $answer)
+    public function removeIncorrectAnswer(Answer $answer)
     {
-        if ($this->answers->contains($answer)) {
-            $this->answers->removeElement($answer);
+        if ($this->incorrectAnswers->contains($answer)) {
+            $this->incorrectAnswers->removeElement($answer);
         }
     }
 }
