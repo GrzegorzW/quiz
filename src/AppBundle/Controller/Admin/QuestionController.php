@@ -3,13 +3,10 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Controller\ApiController;
-use AppBundle\Entity\Category;
 use AppBundle\Entity\Question;
 use AppBundle\ErrorSerializer\FormErrorsSerializer;
 use AppBundle\Event\ImageUploadedEvent;
-use AppBundle\Form\CategoryType;
 use AppBundle\Form\QuestionType;
-use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;

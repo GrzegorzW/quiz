@@ -12,6 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class ApiController extends FOSRestController
 {
+    public function handleForm(Form $form, Request $request)
+    {
+        $form->handleRequest($request);
+        if (!$form->isSubmitted()) {
+            $form->submit([]);
+        }
+    }
+
     /**
      * @param $form
      *
@@ -58,27 +66,6 @@ abstract class ApiController extends FOSRestController
         return $errors;
     }
 
-    protected function getFormErrors(Form $form)
-    {
-        $errors = array();
-
-        // Global
-        foreach ($form->getErrors() as $error) {
-            $errors[$form->getName()][] = $error->getMessage();
-        }
-
-        // Fields
-        foreach ($form as $child /** @var Form $child */) {
-            if (!$child->isValid()) {
-                foreach ($child->getErrors() as $error) {
-                    $errors[$child->getName()][] = $error->getMessage();
-                }
-            }
-        }
-
-        return $errors;
-    }
-
     protected function responseWithPaginator(Pagerfanta $pager, $code = 200, array $groups = ['none'])
     {
         return new Response($this->serializeWithPaginator($pager, $groups), $code);
@@ -95,13 +82,5 @@ abstract class ApiController extends FOSRestController
                 'currentPage' => $pager->getCurrentPage(),
                 'currentItemInPage' => count($pager->getIterator())
             ]], $groups);
-    }
-
-    public function handleForm(Form $form, Request $request)
-    {
-        $form->handleRequest($request);
-        if (!$form->isSubmitted()) {
-            $form->submit([]);
-        }
     }
 }
