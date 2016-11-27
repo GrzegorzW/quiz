@@ -63,7 +63,7 @@ class ImageSubscriber implements EventSubscriber
         while ($filesystem->has($entity->getUploadDir() . '/' . $filename . '.' . $entity->getImageFile()->guessExtension())) {
             $filename = hash('sha512', uniqid(mt_rand(), true));
         }
-        
+
         $entity->setFilesystem($adapterName);
         $entity->setOriginalName($entity->getImageFile()->getClientOriginalName());
         $entity->setImageName($filename . '.' . $entity->getImageFile()->guessExtension());
