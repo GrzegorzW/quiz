@@ -14,13 +14,13 @@ class ImageSubscriber implements EventSubscriber
 {
     protected $httpFoundationExtension;
     protected $filesystemManager;
-    
+
     public function __construct(HttpFoundationExtension $httpFoundationExtension, FilesystemManager $filesystemManager)
     {
         $this->httpFoundationExtension = $httpFoundationExtension;
         $this->filesystemManager = $filesystemManager;
     }
-    
+
     public function getSubscribedEvents()
     {
         return [
@@ -30,7 +30,7 @@ class ImageSubscriber implements EventSubscriber
             Events::postLoad
         ];
     }
-    
+
     public function postLoad(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
@@ -38,14 +38,14 @@ class ImageSubscriber implements EventSubscriber
             $this->setAbsoluteUrl($entity);
         }
     }
-    
+
     protected function setAbsoluteUrl(Image $image)
     {
         $path = '/uploads/' . $image->getFilesystem() . '/' . $image->getImagePath();
         $url = $this->httpFoundationExtension->generateAbsoluteUrl($path);
         $image->setUrl($url);
     }
-    
+
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
@@ -54,7 +54,7 @@ class ImageSubscriber implements EventSubscriber
             $this->setAbsoluteUrl($entity);
         }
     }
-    
+
     protected function upload(Image $entity)
     {
         /** @var Filesystem $filesystem */
@@ -69,14 +69,14 @@ class ImageSubscriber implements EventSubscriber
         $entity->setImageName($filename . '.' . $entity->getImageFile()->guessExtension());
         $entity->setSize($entity->getImageFile()->getSize());
         $entity->setMimeType($entity->getImageFile()->getMimeType());
-        
+
         $stream = fopen($entity->getImageFile()->getRealPath(), 'rb+');
         $filesystem->writeStream($entity->getAbsoluteImagePath(), $stream);
         fclose($stream);
-        
+
         $entity->setImageFile(null);
     }
-    
+
     public function preUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
@@ -85,15 +85,15 @@ class ImageSubscriber implements EventSubscriber
             $this->setAbsoluteUrl($entity);
         }
     }
-    
+
     public function postRemove(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
         if ($entity instanceof Image) {
-            $file = $entity->getAbsoluteImagePath();
-            if ($file) {
+            $path = $entity->getAbsoluteImagePath();
+            $filesystem = $this->filesystemManager->getFilesystemByName($entity->getFilesystem());
+            if ($filesystem->has($path)) {
                 /** @var Filesystem $filesystem */
-                $filesystem = $this->filesystemManager->getFilesystemByName($entity->getFilesystem());
                 $filesystem->delete($entity->getAbsoluteImagePath());
             }
         }

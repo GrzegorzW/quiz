@@ -29,6 +29,9 @@ AppBundle\Entity\Answer:
         question:
             targetEntity: AppBundle\Entity\Question
             inversedBy: incorrectAnswers
+            cascade: ["persist"]
+            orphanRemoval: true
             joinColumn:
                 name: question_id
                 referencedColumnName: id
+                onDelete: cascade

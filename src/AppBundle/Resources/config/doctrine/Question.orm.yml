@@ -28,6 +28,23 @@ AppBundle\Entity\Question:
         content:
             type: string
             nullable: false
+    oneToOne:
+        image:
+            targetEntity: AppBundle\Entity\Image
+            mappedBy: question
+            cascade: ["persist", "remove"]
+        correctAnswer:
+            targetEntity: AppBundle\Entity\Answer
+            cascade: ["persist"]
+            joinColumn:
+                name: correct_answer_id
+                referencedColumnName: id
+                onDelete: cascade
+    oneToMany:
+        incorrectAnswers:
+            targetEntity: AppBundle\Entity\Answer
+            mappedBy: question
+            cascade: ["persist"]
     manyToOne:
         category:
             targetEntity: AppBundle\Entity\Category
@@ -36,23 +53,4 @@ AppBundle\Entity\Question:
                 name: category_id
                 referencedColumnName: id
                 nullable: false
-    oneToOne:
-        image:
-            targetEntity: AppBundle\Entity\Image
-            inversedBy: question
-            cascade: [persist, remove]
-            joinColumn:
-                name: image_id
-                referencedColumnName: id
-                nullable: false
-        correctAnswer:
-            targetEntity: AppBundle\Entity\Answer
-            joinColumn:
-                name: correct_answer_id
-                referencedColumnName: id
-            cascade: [persist, remove]
-    oneToMany:
-        incorrectAnswers:
-            targetEntity: AppBundle\Entity\Answer
-            mappedBy: question
-            cascade: [persist, remove]
+                onDelete: cascade

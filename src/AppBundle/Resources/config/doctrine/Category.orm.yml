@@ -32,4 +32,4 @@ AppBundle\Entity\Category:
         questions:
             targetEntity: AppBundle\Entity\Question
             mappedBy: category
-            orphanRemoval: true
+            cascade: ["remove"]

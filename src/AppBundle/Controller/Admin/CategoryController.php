@@ -96,8 +96,8 @@ class CategoryController extends ApiController
     public function putAction(Request $request, $categoryId)
     {
         $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
-        if (!$category) {
-            throw new NotFoundHttpException();
+        if (!$category instanceof Category) {
+            throw new NotFoundHttpException('Category not found.');
         }
 
         $form = $this->get('form.factory')->createNamed('', CategoryType::class, $category, ['method' => 'PUT']);
@@ -143,8 +143,8 @@ class CategoryController extends ApiController
     public function deleteAction($categoryId)
     {
         $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
-        if (!$category) {
-            throw new NotFoundHttpException();
+        if (!$category instanceof Category) {
+            throw new NotFoundHttpException('Category not found.');
         }
 
         $this->get('app.category_repository')->remove($category);
