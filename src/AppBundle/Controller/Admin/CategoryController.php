@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Controller\ApiController;
 use AppBundle\Entity\Category;
+use AppBundle\Form\CategoryStatusType;
 use AppBundle\Form\CategoryType;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -76,7 +77,7 @@ class CategoryController extends ApiController
      *     404 = "Not found"
      *   },
      *   input= {
-     *      "class" = "AppBundle\Form\CategoryType"
+     *      "class" = "AppBundle\Form\CategoryStatusType"
      *   },
      *   requirements={
      *        {"name"="categoryId", "dataType"="string", "description"="Category ID"}
@@ -100,7 +101,7 @@ class CategoryController extends ApiController
             throw new NotFoundHttpException('Category not found.');
         }
 
-        $form = $this->get('form.factory')->createNamed('', CategoryType::class, $category, ['method' => 'PUT']);
+        $form = $this->get('form.factory')->createNamed('', CategoryStatusType::class, $category, ['method' => 'PUT']);
 
         $this->handleForm($form, $request);
         if (!$form->isValid()) {

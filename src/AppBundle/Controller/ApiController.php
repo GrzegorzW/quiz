@@ -33,7 +33,8 @@ abstract class ApiController extends FOSRestController
                 'code' => 400,
                 'errors' => $this->getErrorsFromForm($form)
             ],
-            400);
+            400
+        );
     }
 
     protected function response($obj, $code = 200, array $groups = ['none'])
@@ -73,14 +74,18 @@ abstract class ApiController extends FOSRestController
 
     protected function serializeWithPaginator(Pagerfanta $pager, array $groups = ['none'])
     {
-        return $this->serialize([
-            'data' => $pager->getIterator()->getArrayCopy(),
-            'paging' => [
-                'totalItems' => $pager->getNbResults(),
-                'totalPages' => $pager->getNbPages(),
-                'itemsPerPage' => $pager->getMaxPerPage(),
-                'currentPage' => $pager->getCurrentPage(),
-                'currentItemInPage' => count($pager->getIterator())
-            ]], $groups);
+        return $this->serialize(
+            [
+                'data' => $pager->getIterator()->getArrayCopy(),
+                'paging' => [
+                    'totalItems' => $pager->getNbResults(),
+                    'totalPages' => $pager->getNbPages(),
+                    'itemsPerPage' => $pager->getMaxPerPage(),
+                    'currentPage' => $pager->getCurrentPage(),
+                    'currentItemInPage' => count($pager->getIterator())
+                ]
+            ],
+            $groups
+        );
     }
 }

@@ -3,7 +3,6 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Question;
-use AppBundle\Validator\Constraints\ArrayCollectionType;
 use AppBundle\Validator\Constraints\NotEmptyArrayCollection;
 use AppBundle\Validator\Constraints\UniqueQuestionAnswers;
 use Symfony\Component\Form\AbstractType;
@@ -53,8 +52,8 @@ class QuestionType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
                 'choices' => [
-                    Question::STATUS_ENABLED => Question::STATUS_ENABLED,
-                    Question::STATUS_DISABLED => Question::STATUS_DISABLED
+                    Question::STATUS_ENABLED,
+                    Question::STATUS_DISABLED
                 ],
                 'constraints' => [
                     new NotBlank()

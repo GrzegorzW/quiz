@@ -3,7 +3,7 @@ AppBundle\Entity\Question:
     properties:
         shortId:
             groups: [question_simple, answer_detailed, image_detailed]
-            serializedName: id
+            serialized_name: id
         createdAt:
             groups: [question_admin]
         updatedAt:

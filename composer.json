@@ -33,7 +33,6 @@
         "friendsofsymfony/rest-bundle": "dev-master",
         "nelmio/api-doc-bundle": "2.*",
         "white-october/pagerfanta-bundle": "^1.0",
-        "jms/serializer-bundle": "^1.1",
         "friendsofsymfony/user-bundle": "dev-master",
         "gedmo/doctrine-extensions": "dev-master",
         "modernfactory/resources-bundle": "dev-master",
@@ -43,7 +42,8 @@
         "league/flysystem": "^1.0",
         "oneup/flysystem-bundle": "^1.4",
         "gesdinet/jwt-refresh-token-bundle": "^0.1.8",
-        "gfreeau/get-jwt-bundle": "2.0.x-dev"
+        "gfreeau/get-jwt-bundle": "2.0.x-dev",
+        "jms/serializer-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

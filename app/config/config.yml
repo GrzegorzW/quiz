@@ -4,9 +4,6 @@ imports:
     - { resource: services.yml }
     - { resource: "@AppBundle/Resources/config/services.yml" }
 
-parameters:
-    jms_serializer.serialized_name_annotation_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
-
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }

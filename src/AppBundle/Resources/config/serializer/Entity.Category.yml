@@ -3,7 +3,7 @@ AppBundle\Entity\Category:
     properties:
         shortId:
             groups: [category_simple, question_simple]
-            serializedName: id
+            serialized_name: id
         createdAt:
             groups: [category_admin]
         updatedAt:

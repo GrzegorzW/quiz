@@ -3,7 +3,7 @@ UserBundle\Entity\User:
     properties:
         shortId:
             groups: [user_simple]
-            serializedName: id
+            serialized_name: id
         updatedAt:
             groups: [user_admin]
         createdAt:

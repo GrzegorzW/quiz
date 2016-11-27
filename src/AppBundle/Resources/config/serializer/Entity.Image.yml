@@ -3,7 +3,7 @@ AppBundle\Entity\Image:
     properties:
         shortId:
             groups: [image_simple, question_simple]
-            serializedName: id
+            serialized_name: id
         originalName:
             groups: [image_admin]
         imageName:
