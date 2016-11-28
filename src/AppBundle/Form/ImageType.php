@@ -19,7 +19,7 @@ class ImageType extends AbstractType
             'constraints' => [
                 new NotBlank(),
                 new File([
-                    'maxSize' => '8M',
+                    'maxSize' => '4000k',
                     'mimeTypes' => [
                         'image/jpg',
                         'image/jpeg',

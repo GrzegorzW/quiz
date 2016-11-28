@@ -12,6 +12,8 @@ class Question implements QuizResourceInterface
     const STATUS_ENABLED = 'enabled';
     const STATUS_DISABLED = 'disabled';
 
+    const RANDOM_QUESTIONS_LIMIT = 10;
+
     /** @var integer */
     protected $id;
     /** @var string */

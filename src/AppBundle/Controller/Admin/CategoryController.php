@@ -64,7 +64,7 @@ class CategoryController extends ApiController
     /**
      * @ApiDoc(
      *   section = "category",
-     *   description = "Update category",
+     *   description = "Update category status",
      *   views = {"admin"},
      *   authentication=true,
      *   authenticationRoles={"ROLE_ADMIN"},
@@ -84,7 +84,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Put("/categories/{categoryId}")
+     * @Rest\Patch("/categories/{categoryId}")
      *
      * @param Request $request
      * @param $categoryId
@@ -94,14 +94,15 @@ class CategoryController extends ApiController
      * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function putAction(Request $request, $categoryId)
+    public function patchAction(Request $request, $categoryId)
     {
         $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found.');
         }
 
-        $form = $this->get('form.factory')->createNamed('', CategoryStatusType::class, $category, ['method' => 'PUT']);
+        $formFactory = $this->get('form.factory');
+        $form = $formFactory->createNamed('', CategoryStatusType::class, $category, ['method' => 'PATCH']);
 
         $this->handleForm($form, $request);
         if (!$form->isValid()) {
@@ -111,6 +112,45 @@ class CategoryController extends ApiController
         $this->get('app.category_repository')->save($category);
 
         return $this->response($category, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *   section = "category",
+     *   description = "Get category",
+     *   views = {"admin"},
+     *   authentication=true,
+     *   authenticationRoles={"ROLE_ADMIN"},
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Success",
+     *     401 = "Authentication required",
+     *     403 = "Unauthorized",
+     *     404 = "Not found"
+     *   },
+     *   output= {
+     *       "class" = "AppBundle\Entity\Category",
+     *       "groups"={"category_simple", "category_admin"}
+     *   },
+     *   requirements={
+     *        {"name"="categoryId", "dataType"="string", "description"="Category ID"}
+     *   }
+     * )
+     *
+     * @Rest\Get("/categories/{categoryId}")
+     *
+     * @param $categoryId
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function getAction($categoryId)
+    {
+        $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
+        if (!$category instanceof Category) {
+            throw new NotFoundHttpException('Category not found.');
+        }
+
+        return $this->response($category, 200, ['category_simple', 'category_admin']);
     }
 
     /**

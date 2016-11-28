@@ -100,7 +100,7 @@ class QuestionController extends ApiController
      *   }
      * )
      *
-     * @Rest\Put("/questions/{questionId}")
+     * @Rest\Patch("/questions/{questionId}")
      *
      * @param Request $request
      * @param $questionId
@@ -110,14 +110,15 @@ class QuestionController extends ApiController
      * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function putAction(Request $request, $questionId)
+    public function patchAction(Request $request, $questionId)
     {
         $question = $this->get('app.question_repository')->findOneBy(['shortId' => $questionId]);
         if (!$question instanceof Question) {
             throw new NotFoundHttpException('Question not found.');
         }
 
-        $form = $this->get('form.factory')->createNamed('', QuestionStatusType::class, $question, ['method' => 'PUT']);
+        $formFactory = $this->get('form.factory');
+        $form = $formFactory->createNamed('', QuestionStatusType::class, $question, ['method' => 'PATCH']);
 
         $this->handleForm($form, $request);
         if (!$form->isValid()) {
@@ -127,6 +128,45 @@ class QuestionController extends ApiController
         $this->get('app.question_repository')->save($question);
 
         return $this->response($question, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *   section = "question",
+     *   description = "Get question",
+     *   views = {"admin"},
+     *   authentication=true,
+     *   authenticationRoles={"ROLE_ADMIN"},
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Success",
+     *     401 = "Authentication required",
+     *     403 = "Unauthorized",
+     *     404 = "Not found"
+     *   },
+     *   output= {
+     *       "class" = "AppBundle\Entity\Question",
+     *       "groups"={"question_simple", "question_detailed", "question_admin"}
+     *   },
+     *   requirements={
+     *        {"name"="questionId", "dataType"="string", "description"="Question ID"}
+     *   }
+     * )
+     *
+     * @Rest\Get("/questions/{questionId}")
+     *
+     * @param $questionId
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function getAction($questionId)
+    {
+        $question = $this->get('app.question_repository')->findOneBy(['shortId' => $questionId]);
+        if (!$question instanceof Question) {
+            throw new NotFoundHttpException('Question not found.');
+        }
+
+        return $this->response($question, 200, ['question_simple', 'question_detailed', 'question_admin']);
     }
 
     /**
