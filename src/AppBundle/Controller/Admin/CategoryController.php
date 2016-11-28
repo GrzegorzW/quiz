@@ -36,7 +36,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Post("/categories")
+     * @Rest\Post("/admin/categories")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -84,7 +84,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Patch("/categories/{categoryId}")
+     * @Rest\Patch("/admin/categories/{categoryId}")
      *
      * @param Request $request
      * @param $categoryId
@@ -137,7 +137,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Get("/categories/{categoryId}")
+     * @Rest\Get("/admin/categories/{categoryId}")
      *
      * @param $categoryId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -172,7 +172,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Delete("/categories/{categoryId}")
+     * @Rest\Delete("/admin/categories/{categoryId}")
      *
      * @param $categoryId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -191,5 +191,47 @@ class CategoryController extends ApiController
         $this->get('app.category_repository')->remove($category);
 
         return $this->response($category, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *   section = "category",
+     *   description = "List categories",
+     *   views = {"user", "admin"},
+     *   authentication=true,
+     *   authenticationRoles={"ROLE_ADMIN"},
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Success",
+     *     400 = "Invalid params",
+     *     401 = "Authentication required",
+     *     403 = "Unauthorized"
+     *   },
+     *   output= {
+     *       "class" = "AppBundle\Entity\Category",
+     *       "groups"={"category_simple"},
+     *       "collection" = true
+     *   }
+     * )
+     *
+     * @Rest\Get("/admin/categories")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \LogicException
+     * @throws \Pagerfanta\Exception\OutOfRangeCurrentPageException
+     * @throws \Pagerfanta\Exception\NotIntegerCurrentPageException
+     * @throws \Pagerfanta\Exception\LessThan1CurrentPageException
+     */
+    public function listAction(Request $request)
+    {
+        $statuses = [Category::STATUS_ENABLED, Category::STATUS_DISABLED];
+        $categoriesQB = $this->get('app.category_repository')->getCategoriesQB($statuses);
+
+        $result = $this->get('app.pagination_manager')
+            ->paginate($categoriesQB, $request->query->get('sorting', ['createdAt' => 'desc']))
+            ->setCurrentPage($request->query->getInt('page', 1));
+
+        return $this->responseWithPaginator($result, 200, ['category_simple']);
     }
 }

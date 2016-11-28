@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\User;
 
 use AppBundle\Controller\ApiController;
+use AppBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,24 +28,21 @@ class CategoryController extends ApiController
      *       "class" = "AppBundle\Entity\Category",
      *       "groups"={"category_simple"},
      *       "collection" = true
-     *   },
-     *   filters={
-     *       {"name"="phrase", "dataType"="string"}
      *   }
      * )
      *
      * @Rest\Get("/categories")
      *
      * @param Request $request
-     * @param $phrase
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \LogicException
      * @throws \Pagerfanta\Exception\OutOfRangeCurrentPageException
      * @throws \Pagerfanta\Exception\NotIntegerCurrentPageException
      * @throws \Pagerfanta\Exception\LessThan1CurrentPageException
      */
-    public function listAction(Request $request, $phrase)
+    public function listAction(Request $request)
     {
-        $categoriesQB = $this->get('app.category_repository')->getCategoriesQB($phrase);
+        $categoriesQB = $this->get('app.category_repository')->getCategoriesQB();
 
         $result = $this->get('app.pagination_manager')
             ->paginate($categoriesQB, $request->query->get('sorting', ['createdAt' => 'desc']))

@@ -42,7 +42,7 @@ class QuestionController extends ApiController
      *   }
      * )
      *
-     * @Rest\Post("/categories/{categoryId}/questions")
+     * @Rest\Post("/admin/categories/{categoryId}/questions")
      *
      * @param Request $request
      * @param $categoryId
@@ -100,7 +100,7 @@ class QuestionController extends ApiController
      *   }
      * )
      *
-     * @Rest\Patch("/questions/{questionId}")
+     * @Rest\Patch("/admin/questions/{questionId}")
      *
      * @param Request $request
      * @param $questionId
@@ -153,7 +153,7 @@ class QuestionController extends ApiController
      *   }
      * )
      *
-     * @Rest\Get("/questions/{questionId}")
+     * @Rest\Get("/admin/questions/{questionId}")
      *
      * @param $questionId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -188,7 +188,7 @@ class QuestionController extends ApiController
      *   }
      * )
      *
-     * @Rest\Delete("/questions/{questionId}")
+     * @Rest\Delete("/admin/questions/{questionId}")
      *
      * @param $questionId
      * @return \Symfony\Component\HttpFoundation\Response
