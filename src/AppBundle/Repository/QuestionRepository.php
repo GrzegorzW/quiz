@@ -78,4 +78,13 @@ class QuestionRepository extends BaseRepository
 
         return $results;
     }
+
+    public function getQuestionsQB(array $statuses = [Question::STATUS_ENABLED])
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->andWhere('o.status IN (:statuses)')
+            ->setParameter('statuses', $statuses);
+
+        return $qb;
+    }
 }

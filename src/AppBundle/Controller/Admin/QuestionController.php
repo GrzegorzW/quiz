@@ -208,4 +208,46 @@ class QuestionController extends ApiController
 
         return $this->response($question, 204);
     }
+
+    /**
+     * @ApiDoc(
+     *   section = "question",
+     *   description = "List questions",
+     *   views = {"user", "admin"},
+     *   authentication=true,
+     *   authenticationRoles={"ROLE_ADMIN"},
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Success",
+     *     400 = "Invalid params",
+     *     401 = "Authentication required",
+     *     403 = "Unauthorized"
+     *   },
+     *   output= {
+     *       "class" = "AppBundle\Entity\Question",
+     *       "groups"={"question_simple", "question_admin"},
+     *       "collection" = true
+     *   }
+     * )
+     *
+     * @Rest\Get("/admin/questions")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \LogicException
+     * @throws \Pagerfanta\Exception\OutOfRangeCurrentPageException
+     * @throws \Pagerfanta\Exception\NotIntegerCurrentPageException
+     * @throws \Pagerfanta\Exception\LessThan1CurrentPageException
+     */
+    public function listAction(Request $request)
+    {
+        $statuses = [Question::STATUS_ENABLED, Question::STATUS_DISABLED];
+        $categoriesQB = $this->get('app.question_repository')->getQuestionsQB($statuses);
+
+        $result = $this->get('app.pagination_manager')
+            ->paginate($categoriesQB, $request->query->get('sorting', ['createdAt' => 'desc']))
+            ->setCurrentPage($request->query->getInt('page', 1));
+
+        return $this->responseWithPaginator($result, 200, ['question_simple', 'question_admin']);
+    }
 }
