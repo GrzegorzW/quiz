@@ -19,11 +19,14 @@ class User extends BaseUser implements QuizResourceInterface
     protected $createdAt;
     /** @var \DateTime */
     protected $updatedAt;
+    /** @var bool */
+    protected $deleted;
 
     public function __construct()
     {
         parent::__construct();
         $this->enabled = true;
+        $this->deleted = false;
     }
 
     /**
@@ -72,5 +75,33 @@ class User extends BaseUser implements QuizResourceInterface
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param bool $deleted
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
+     * @param string $email
+     * @return $this|\FOS\UserBundle\Model\UserInterface
+     */
+    public function setEmail($email)
+    {
+        parent::setEmail($email);
+        $this->setUsername($email);
+
+        return $this;
     }
 }

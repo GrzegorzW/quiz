@@ -1,0 +1,22 @@
+AppBundle\Entity\User:
+    user_tmpl (template):
+        email (unique): <email()>
+        plainPassword: secret_password
+        roles: [ROLE_USER]
+        deleted: 0
+
+    admin_tmpl (template, extends user_tmpl):
+        roles: [ROLE_ADMIN]
+
+    admin (extends admin_tmpl):
+        email: admin@admin.admin
+        enabled: 1
+
+    user_{1..10} (extends user_tmpl):
+        enabled: 1
+
+    user_disabled (extends user_tmpl):
+        enabled: 0
+
+    user_deleted (extends user_tmpl):
+        deleted: 1

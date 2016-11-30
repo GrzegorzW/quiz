@@ -71,6 +71,10 @@ jms_serializer:
         lower_case: true
     metadata:
         auto_detection: true
+        directories:
+            FOSUserBundle:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/Resources/serializer/fos"
 
 fos_user:
     db_driver: orm

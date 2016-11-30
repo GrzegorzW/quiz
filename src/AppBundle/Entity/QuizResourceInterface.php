@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-
 use ModernFactory\ResourcesBundle\Resource\Model\ResourceInterface;
 
 interface QuizResourceInterface extends ResourceInterface

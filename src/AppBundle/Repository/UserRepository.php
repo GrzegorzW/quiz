@@ -5,28 +5,45 @@ namespace AppBundle\Repository;
 
 class UserRepository extends BaseRepository
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function createUserPaginator(array $criteria = null, array $sorting = null)
+    public function findUserByShortId($shortId, $allowDisabled = false)
     {
-        $queryBuilder = $this->createQueryBuilder('o');
+        $qb = $this->createQueryBuilder('o')
+            ->where('o.deleted = :deleted')
+            ->andWhere('o.shortId = :shortId')
+            ->setParameter('deleted', false)
+            ->setParameter('shortId', $shortId);
 
-        if (isset($criteria['query'])) {
-            $queryBuilder
-                ->orWhere($queryBuilder->expr()->like($this->getPropertyName('username'), ':query'))
-                ->setParameter('query', '%' . addcslashes($criteria['query'], '%_') . '%');
+        if (!$allowDisabled) {
+            $qb
+                ->andWhere('o.enabled = :enabled')
+                ->setParameter('enabled', true);
         }
 
-        if (empty($sorting)) {
-            if (!is_array($sorting)) {
-                $sorting = [];
-            }
-            $sorting['updatedAt'] = 'desc';
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function getUsersQB($phrase = null, $allowDisabled = false)
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->where('o.deleted = :deleted')
+            ->setParameter('deleted', false);
+
+        if (!$allowDisabled) {
+            $qb
+                ->andWhere('o.enabled = :enabled')
+                ->setParameter('enabled', true);
         }
 
-        $this->applySorting($queryBuilder, $sorting);
+        if ($phrase) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('o.shortId', ':phrase'),
+                    $qb->expr()->like('o.email', ':phrase')
+                )
+            );
+            $qb->setParameter('phrase', '%' . trim($phrase) . '%');
+        }
 
-        return $this->getPaginator($queryBuilder);
+        return $qb;
     }
 }

@@ -22,3 +22,8 @@ AppBundle\Entity\User:
             gedmo:
                 timestampable:
                     on: update
+        deleted:
+            type: boolean
+            nullable: false
+            options:
+                default: false

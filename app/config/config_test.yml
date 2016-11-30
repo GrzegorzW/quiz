@@ -1,6 +1,5 @@
 imports:
     - { resource: config_dev.yml }
-    - { resource: parameters_test.yml }
 
 framework:
     test: ~
@@ -25,7 +24,7 @@ doctrine:
         connections:
             default:
                 driver: pdo_sqlite
-                path: "/tmp/test.db"
+                path: "%kernel.cache_dir%/test.db"
                 memory: true
 
 lexik_jwt_authentication:

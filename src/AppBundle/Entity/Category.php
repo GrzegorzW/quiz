@@ -4,7 +4,11 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+/**
+ * @UniqueEntity("name")
+ */
 class Category implements QuizResourceInterface
 {
     const STATUS_ENABLED = 'enabled';

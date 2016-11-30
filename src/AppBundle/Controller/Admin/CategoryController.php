@@ -96,8 +96,10 @@ class CategoryController extends ApiController
      */
     public function patchAction(Request $request, $categoryId)
     {
+        $categoryRepository = $this->get('app.category_repository');
+
         $statuses = [Category::STATUS_ENABLED, Category::STATUS_DISABLED];
-        $category = $this->get('app.category_repository')->findCategoryByShortId($categoryId, $statuses);
+        $category = $categoryRepository->findCategoryByShortId($categoryId, $statuses);
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found.');
         }
@@ -110,9 +112,9 @@ class CategoryController extends ApiController
             return $this->createValidationErrorResponse($form);
         }
 
-        $this->get('app.category_repository')->save($category);
+        $categoryRepository->save($category);
 
-        return $this->response($category, 204);
+        return $this->response('', 204);
     }
 
     /**
@@ -158,7 +160,7 @@ class CategoryController extends ApiController
     /**
      * @ApiDoc(
      *   section = "category",
-     *   description = "Delete category",
+     *   description = "Delete category - HARD",
      *   views = {"admin"},
      *   authentication=true,
      *   authenticationRoles={"ROLE_ADMIN"},
@@ -185,15 +187,17 @@ class CategoryController extends ApiController
      */
     public function deleteAction($categoryId)
     {
+        $categoryRepository = $this->get('app.category_repository');
+
         $statuses = [Category::STATUS_ENABLED, Category::STATUS_DISABLED];
-        $category = $this->get('app.category_repository')->findCategoryByShortId($categoryId, $statuses);
+        $category = $categoryRepository->findCategoryByShortId($categoryId, $statuses);
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found.');
         }
 
-        $this->get('app.category_repository')->remove($category);
+        $categoryRepository->remove($category);
 
-        return $this->response($category, 204);
+        return $this->response('', 204);
     }
 
     /**

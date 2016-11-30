@@ -113,8 +113,9 @@ class QuestionController extends ApiController
      */
     public function patchAction(Request $request, $questionId)
     {
+        $questionRepository = $this->get('app.question_repository');
         $statuses = [Question::STATUS_ENABLED, Question::STATUS_DISABLED];
-        $question = $this->get('app.question_repository')->findQuestionByShortId($questionId, $statuses);
+        $question = $questionRepository->findQuestionByShortId($questionId, $statuses);
         if (!$question instanceof Question) {
             throw new NotFoundHttpException('Question not found.');
         }
@@ -127,9 +128,9 @@ class QuestionController extends ApiController
             return $this->createValidationErrorResponse($form);
         }
 
-        $this->get('app.question_repository')->save($question);
+        $questionRepository->save($question);
 
-        return $this->response($question, 204);
+        return $this->response('', 204);
     }
 
     /**
@@ -175,7 +176,7 @@ class QuestionController extends ApiController
     /**
      * @ApiDoc(
      *   section = "question",
-     *   description = "Delete question",
+     *   description = "Delete question - HARD",
      *   views = {"admin"},
      *   authentication=true,
      *   authenticationRoles={"ROLE_ADMIN"},
@@ -202,15 +203,17 @@ class QuestionController extends ApiController
      */
     public function deleteAction($questionId)
     {
+        $questionRepository = $this->get('app.question_repository');
+
         $statuses = [Question::STATUS_ENABLED, Question::STATUS_DISABLED];
-        $question = $this->get('app.question_repository')->findQuestionByShortId($questionId, $statuses);
+        $question = $questionRepository->findQuestionByShortId($questionId, $statuses);
         if (!$question instanceof Question) {
             throw new NotFoundHttpException('Question not found.');
         }
 
-        $this->get('app.question_repository')->remove($question);
+        $questionRepository->remove($question);
 
-        return $this->response($question, 204);
+        return $this->response('', 204);
     }
 
     /**

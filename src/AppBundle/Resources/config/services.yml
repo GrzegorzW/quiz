@@ -39,6 +39,11 @@ services:
         factory: ["@doctrine", 'getRepository']
         arguments:
           - AppBundle\Entity\Question
+    app.user_repository:
+        class: AppBundle\Repository\UserRepository
+        factory: ["@doctrine", 'getRepository']
+        arguments:
+          - AppBundle\Entity\User
 
     app.pre_persist_listener:
         class: AppBundle\EventListener\PrePersistListener
