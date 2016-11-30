@@ -11,7 +11,7 @@ AppBundle\Entity\Question:
         status:
             groups: [question_admin]
         content:
-            groups: [question_simple]
+            groups: [question_simple, answer_detailed]
         category:
             groups: [question_simple]
         image:
@@ -19,4 +19,4 @@ AppBundle\Entity\Question:
         incorrectAnswers:
             groups: [question_detailed]
         correctAnswer:
-            groups: [question_detailed]
+            groups: [question_detailed, answer_detailed]

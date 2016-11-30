@@ -54,7 +54,8 @@ class QuestionController extends ApiController
      */
     public function postAction(Request $request, $categoryId)
     {
-        $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
+        $statuses = [Category::STATUS_ENABLED, Category::STATUS_DISABLED];
+        $category = $this->get('app.category_repository')->findCategoryByShortId($categoryId, $statuses);
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found.');
         }
@@ -112,7 +113,8 @@ class QuestionController extends ApiController
      */
     public function patchAction(Request $request, $questionId)
     {
-        $question = $this->get('app.question_repository')->findOneBy(['shortId' => $questionId]);
+        $statuses = [Question::STATUS_ENABLED, Question::STATUS_DISABLED];
+        $question = $this->get('app.question_repository')->findQuestionByShortId($questionId, $statuses);
         if (!$question instanceof Question) {
             throw new NotFoundHttpException('Question not found.');
         }
@@ -161,7 +163,8 @@ class QuestionController extends ApiController
      */
     public function getAction($questionId)
     {
-        $question = $this->get('app.question_repository')->findOneBy(['shortId' => $questionId]);
+        $statuses = [Question::STATUS_ENABLED, Question::STATUS_DISABLED];
+        $question = $this->get('app.question_repository')->findQuestionByShortId($questionId, $statuses);
         if (!$question instanceof Question) {
             throw new NotFoundHttpException('Question not found.');
         }
@@ -199,7 +202,8 @@ class QuestionController extends ApiController
      */
     public function deleteAction($questionId)
     {
-        $question = $this->get('app.question_repository')->findOneBy(['shortId' => $questionId]);
+        $statuses = [Question::STATUS_ENABLED, Question::STATUS_DISABLED];
+        $question = $this->get('app.question_repository')->findQuestionByShortId($questionId, $statuses);
         if (!$question instanceof Question) {
             throw new NotFoundHttpException('Question not found.');
         }

@@ -2,36 +2,36 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\Category;
 use AppBundle\Entity\Question;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 class QuestionRepository extends BaseRepository
 {
-    public function getRandomQuestions(Category $category, $limit)
+    public function getRandomQuestions($categoryId, $limit)
     {
-        $count = $this->getEnabledQuestionsCount($category);
+        $count = $this->getEnabledQuestionsCount($categoryId);
 
         if ($count < $limit) {
             $limit = $count;
         }
 
-        return $this->getRandomResults($category, $limit);
+        return $this->getRandomResults($categoryId, $limit);
     }
 
     /**
-     * @param Category $category
+     * @param $categoryId
      * @return int
      */
-    public function getEnabledQuestionsCount(Category $category)
+    public function getEnabledQuestionsCount($categoryId)
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'SELECT COUNT(*) FROM questions AS q WHERE q.category_id = :category AND q.status = :enabled';
+        $sql = 'SELECT COUNT(*) FROM questions AS q 
+                WHERE q.category_id = :category AND q.status = :enabled';
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-            'category' => $category->getId(),
+            'category' => $categoryId,
             'enabled' => Question::STATUS_ENABLED
         ]);
 
@@ -39,44 +39,65 @@ class QuestionRepository extends BaseRepository
     }
 
     /**
-     * @param Category $category
+     * @param $categoryId
      * @param $limit
      * @return ArrayCollection
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
+     * @internal param Category $category
      */
-    protected function getRandomResults(Category $category, $limit)
+    protected function getRandomResults($categoryId, $limit)
     {
-        $results = new ArrayCollection();
+        $randomResults = new ArrayCollection();
 
-        $em = $this->getEntityManager();
-
-        $sql = 'SELECT * 
-                FROM questions AS q 
+        $sql = 'SELECT *  FROM questions AS q 
                 JOIN (SELECT (RAND() * (SELECT MAX(id) FROM questions)) AS r_id) AS random 
-                WHERE q.id >= random.r_id 
-                AND q.category_id = :category
-                AND q.status = :enabled
-                ORDER BY q.id ASC 
-                LIMIT 1';
+                WHERE q.id >= random.r_id  AND q.category_id = :category AND q.status = :enabled
+                ORDER BY q.id ASC LIMIT 1';
+        $query = $this->createNativeQuery($sql, Question::class, 'q');
+        $query->setParameter('category', (int)$categoryId);
+        $query->setParameter('enabled', Question::STATUS_ENABLED);
 
-        while ($results->count() < $limit) {
-            $rsm = new ResultSetMappingBuilder($em);
-            $rsm->addRootEntityFromClassMetadata(Question::class, 'q');
-            $query = $em->createNativeQuery($sql, $rsm);
-            $query->setParameter('category', $category->getId());
-            $query->setParameter('enabled', Question::STATUS_ENABLED);
-
-            $result = $query->getSingleResult();
-            $em->refresh($result);
-
-            if (!$results->contains($result)) {
-                $results->add($result);
-            }
+        while ($randomResults->count() < $limit) {
+            $queryResult = $query->getResult();
+            $this->handleQueryResult($randomResults, $queryResult);
         }
 
-        return $results;
+        return $randomResults;
+    }
+
+    /**
+     * @param $sql
+     * @param $rootEntityClass
+     * @param $alias
+     * @return \Doctrine\ORM\NativeQuery
+     */
+    protected function createNativeQuery($sql, $rootEntityClass, $alias)
+    {
+        $rsm = new ResultSetMappingBuilder($this->getEntityManager());
+        $rsm->addRootEntityFromClassMetadata($rootEntityClass, $alias);
+
+        return $this->getEntityManager()->createNativeQuery($sql, $rsm);
+    }
+
+    /**
+     * @param ArrayCollection $randomResults
+     * @param array $queryResult
+     *
+     * $queryResults: an array, because of probability that every sufficient
+     * question id will be lower than "random.r_id"
+     *
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     */
+    protected function handleQueryResult(ArrayCollection $randomResults, array $queryResult)
+    {
+        if (count($queryResult)) {
+            $result = $queryResult[0];
+            $this->_em->refresh($result);
+
+            if (!$randomResults->contains($result)) {
+                $randomResults->add($result);
+            }
+        }
     }
 
     public function getQuestionsQB(array $statuses = [Question::STATUS_ENABLED])
@@ -86,5 +107,18 @@ class QuestionRepository extends BaseRepository
             ->setParameter('statuses', $statuses);
 
         return $qb;
+    }
+
+    public function findQuestionByShortId(
+        $shortId,
+        array $statuses = [Question::STATUS_ENABLED]
+    ) {
+        $qb = $this->createQueryBuilder('o')
+            ->andWhere('o.shortId = :shortId')
+            ->andWhere('o.status IN (:statuses)')
+            ->setParameter('shortId', $shortId)
+            ->setParameter('statuses', $statuses);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

@@ -14,6 +14,11 @@ services:
         arguments:
           - "@oneup_flysystem.mount_manager"
 
+    app.answers_manager:
+            class: AppBundle\Service\AnswersManager
+            arguments:
+              - "@app.answer_repository"
+
     app.answer_repository:
         class: AppBundle\Repository\AnswerRepository
         factory: ["@doctrine", 'getRepository']

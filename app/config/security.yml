@@ -21,7 +21,7 @@ security:
             stateless: true
             anonymous: true
 
-        gettoken:
+        get_token:
             pattern:  ^/api/getToken$
             stateless: true
             gfreeau_get_jwt:
@@ -37,9 +37,9 @@ security:
             pattern:   ^/api
             stateless: true
             lexik_jwt: ~
-#            guard:
-#                authenticators:
-#                    - lexik_jwt_authentication.jwt_token_authenticator
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

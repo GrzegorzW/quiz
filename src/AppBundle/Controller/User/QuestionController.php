@@ -54,7 +54,7 @@ class QuestionController extends ApiController
      */
     public function cgetAction(Request $request, $categoryId)
     {
-        $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
+        $category = $this->get('app.category_repository')->findCategoryByShortId($categoryId);
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found.');
         }
@@ -65,8 +65,10 @@ class QuestionController extends ApiController
             throw new BadRequestHttpException($msg);
         }
 
-        $questions = $this->get('app.question_repository')->getRandomQuestions($category, $limit);
+        $questions = $this->get('app.question_repository')->getRandomQuestions($category->getId(), $limit);
 
         return $this->response($questions, 200, ['question_simple', 'question_detailed']);
     }
+
+
 }

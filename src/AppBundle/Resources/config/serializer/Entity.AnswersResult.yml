@@ -1,0 +1,7 @@
+AppBundle\Entity\AnswersResult:
+    exclusion_policy: ALL
+    properties:
+        score:
+            groups: [answer_simple, question_simple]
+        answers:
+            groups: [answer_simple, question_simple]

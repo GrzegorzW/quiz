@@ -96,7 +96,8 @@ class CategoryController extends ApiController
      */
     public function patchAction(Request $request, $categoryId)
     {
-        $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
+        $statuses = [Category::STATUS_ENABLED, Category::STATUS_DISABLED];
+        $category = $this->get('app.category_repository')->findCategoryByShortId($categoryId, $statuses);
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found.');
         }
@@ -145,7 +146,8 @@ class CategoryController extends ApiController
      */
     public function getAction($categoryId)
     {
-        $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
+        $statuses = [Category::STATUS_ENABLED, Category::STATUS_DISABLED];
+        $category = $this->get('app.category_repository')->findCategoryByShortId($categoryId, $statuses);
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found.');
         }
@@ -183,7 +185,8 @@ class CategoryController extends ApiController
      */
     public function deleteAction($categoryId)
     {
-        $category = $this->get('app.category_repository')->findOneBy(['shortId' => $categoryId]);
+        $statuses = [Category::STATUS_ENABLED, Category::STATUS_DISABLED];
+        $category = $this->get('app.category_repository')->findCategoryByShortId($categoryId, $statuses);
         if (!$category instanceof Category) {
             throw new NotFoundHttpException('Category not found.');
         }

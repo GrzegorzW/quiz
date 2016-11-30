@@ -14,4 +14,3 @@ AppBundle\Entity\Answer:
             groups: [answer_simple, question_detailed]
         question:
             groups: [answer_detailed]
-
