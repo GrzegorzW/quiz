@@ -2,7 +2,6 @@
 
 namespace AppBundle\Repository;
 
-
 class UserRepository extends BaseRepository
 {
     public function findUserByShortId($shortId, $allowDisabled = false)
