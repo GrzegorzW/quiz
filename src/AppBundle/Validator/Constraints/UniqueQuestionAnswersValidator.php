@@ -32,7 +32,10 @@ class UniqueQuestionAnswersValidator extends ConstraintValidator
             throw new UnexpectedTypeException($data, Question::class);
         }
 
-        $this->collectionValues[] = $data->getCorrectAnswer()->getContent();
+        $correctAnswer = $data->getCorrectAnswer();
+        if ($correctAnswer) {
+            $this->collectionValues[] = $correctAnswer;
+        }
 
         foreach ($collection as $item) {
             if (!$item instanceof Answer) {

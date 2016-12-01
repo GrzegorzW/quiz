@@ -101,7 +101,7 @@ class QuestionController extends ApiController
      *   }
      * )
      *
-     * @Rest\Patch("/admin/questions/{questionId}")
+     * @Rest\Patch("/admin/questions/{questionId}/statuses")
      *
      * @param Request $request
      * @param $questionId

@@ -84,7 +84,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Patch("/admin/categories/{categoryId}")
+     * @Rest\Patch("/admin/categories/{categoryId}/statuses")
      *
      * @param Request $request
      * @param $categoryId

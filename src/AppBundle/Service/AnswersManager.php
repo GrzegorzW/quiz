@@ -3,7 +3,6 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Answer;
-use AppBundle\Entity\AnswersResult;
 use AppBundle\Repository\AnswerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -24,12 +23,13 @@ class AnswersManager
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function handleAnswers(array $answersInput)
+    public function handleAnswers($answersInput)
     {
         if (!is_array($answersInput)) {
             throw new BadRequestHttpException('User answers must be type of array.');
         }
 
+        $answeredQuestions = new ArrayCollection();
         $answers = new ArrayCollection();
 
         foreach ($answersInput as $shortId) {
@@ -40,8 +40,10 @@ class AnswersManager
                 throw new NotFoundHttpException(sprintf('Answer with id %s not found.', $shortId));
             }
 
-            if (!$answers->contains($answer)) {
+            $question = $answer->getQuestion();
+            if (!$answers->contains($answer) && !$answeredQuestions->contains($question)) {
                 $answers->add($answer);
+                $answeredQuestions->add($question);
             }
         }
 
