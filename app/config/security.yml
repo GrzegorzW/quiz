@@ -15,12 +15,12 @@ security:
             security: false
 
         refresh:
-            pattern:  ^/api/token/refresh
+            pattern:  ^/api/token/refresh$
             stateless: true
             anonymous: true
 
         get_token:
-            pattern:  ^/api/getToken$
+            pattern:  ^/api/token/get$
             stateless: true
             gfreeau_get_jwt:
                 username_parameter: username
@@ -39,7 +39,7 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/v1/admin,       roles: ROLE_ADMIN }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/login,    roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/token,    roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/admin, roles: ROLE_ADMIN }
+        - { path: ^/api,          roles: IS_AUTHENTICATED_FULLY }

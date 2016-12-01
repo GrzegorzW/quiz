@@ -4,8 +4,9 @@ api:
     prefix:   /api/v1
 
 api_get_token:
-    path:     /api/getToken
-    defaults: { _controller: AppBundle:JWT:getToken }
+    path:     /api/token/get
+    defaults: { _controller: AppBundle:GetJWT:getToken }
+    methods: ['POST']
 
 api_refresh_token:
     path:     /api/token/refresh
