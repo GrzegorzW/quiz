@@ -4,7 +4,6 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Controller\ApiController;
 use AppBundle\Entity\User;
-use AppBundle\Form\RegisterUserType;
 use AppBundle\Form\UserType;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -14,55 +13,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends ApiController
 {
-    /**
-     * @ApiDoc(
-     *   section = "user",
-     *   description = "Create user",
-     *   views = {"admin"},
-     *   authentication=true,
-     *   authenticationRoles={"ROLE_ADMIN"},
-     *   resource = true,
-     *   statusCodes = {
-     *     201 = "Success",
-     *     400 = "Invalid params",
-     *     401 = "Authentication required",
-     *     403 = "Unauthorized"
-     *   },
-     *   input= {
-     *       "class" = "AppBundle\Form\UserType"
-     *   },
-     *   output= {
-     *       "class" = "AppBundle\Entity\User",
-     *       "groups"={"user_simple", "user_detailed"}
-     *   },
-     * )
-     *
-     * @Rest\Post("/admin/users")
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\ORMInvalidArgumentException
-     * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    public function postAction(Request $request)
-    {
-        $userManager = $this->get('fos_user.user_manager');
-
-        $user = $userManager->createUser();
-        $form = $this->get('form.factory')->createNamed('', RegisterUserType::class, $user);
-
-        $this->handleForm($form, $request);
-        if (!$form->isValid()) {
-            return $this->createValidationErrorResponse($form);
-        }
-
-        $userManager->updateUser($user);
-
-        return $this->response($user, 201, ['user_simple', 'user_detailed']);
-    }
-
     /**
      * @ApiDoc(
      *   section = "user",
@@ -86,7 +36,7 @@ class UserController extends ApiController
      *   }
      * )
      *
-     * @Rest\Get("admin/users/{userId}")
+     * @Rest\Get("/users/{userId}")
      *
      * @param $userId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -125,7 +75,7 @@ class UserController extends ApiController
      *   }
      * )
      *
-     * @Rest\Put("/admin/users/{userId}")
+     * @Rest\Put("/users/{userId}")
      *
      * @param Request $request
      * @param $userId
@@ -174,7 +124,7 @@ class UserController extends ApiController
      *   }
      * )
      *
-     * @Rest\Delete("/admin/users/{userId}")
+     * @Rest\Delete("/users/{userId}")
      *
      * @param $userId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -223,7 +173,7 @@ class UserController extends ApiController
      *   }
      * )
      *
-     * @Rest\Get("/admin/users")
+     * @Rest\Get("/users")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response

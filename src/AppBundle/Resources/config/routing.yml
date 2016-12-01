@@ -1,0 +1,7 @@
+admin:
+    resource: "@AppBundle/Controller/Admin"
+    prefix:   /v1/admin
+
+user:
+    resource: "@AppBundle/Controller/User"
+    prefix:   /v1/

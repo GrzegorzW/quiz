@@ -140,7 +140,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Get("/admin/categories/{categoryId}")
+     * @Rest\Get("/categories/{categoryId}")
      *
      * @param $categoryId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -176,7 +176,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Delete("/admin/categories/{categoryId}")
+     * @Rest\Delete("/categories/{categoryId}")
      *
      * @param $categoryId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -221,7 +221,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Get("/admin/categories")
+     * @Rest\Get("/categories")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response

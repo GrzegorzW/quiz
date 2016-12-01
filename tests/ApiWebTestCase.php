@@ -62,15 +62,15 @@ abstract class ApiWebTestCase extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/api/getToken',
+            '/api/token/get',
             [
                 'username' => $username,
                 'password' => $password
             ]
         );
+        $this->assertStatusCode(200, $this->client);
 
         $data = $this->getResponseContent();
-
         $this->client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
     }
 
