@@ -36,7 +36,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Post("/admin/categories")
+     * @Rest\Post("/categories")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -84,7 +84,7 @@ class CategoryController extends ApiController
      *   }
      * )
      *
-     * @Rest\Patch("/admin/categories/{categoryId}/statuses")
+     * @Rest\Patch("/categories/{categoryId}/statuses")
      *
      * @param Request $request
      * @param $categoryId
